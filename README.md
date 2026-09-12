@@ -1,66 +1,45 @@
-# Neural Network from Scratch — NumPy to PyTorch
+# Neural Networks & Deep Learning — From Scratch
 
-Implemented a feedforward neural network in plain NumPy first, then rebuilt it in PyTorch — to make sure I understood what `.backward()` is actually doing before relying on it.
+**Why this repo exists:** most ML work today means calling `.fit()` or `.backward()` on
+a library and trusting it. I wanted to know what's actually happening underneath before
+I kept building on top of it — so this is a running collection of core ML/DL mechanics
+implemented from zero: no shortcuts, no copied notebooks, each one typed and understood
+line by line.
 
----
-
-## Why I Built This
-
-I kept using PyTorch without fully understanding what was happening during backpropagation. So I stopped and implemented it manually. It turned out to be more understandable than expected, and now when training goes wrong I have a much clearer sense of where to look.
-
----
-
-## What Is Implemented
-
-**Phase 1 — NumPy only** (`1/1.1/Start.ipynb`)
-- Forward pass: linear transformation + activation functions (ReLU, Sigmoid)
-- Loss computation: Binary Cross-Entropy and MSE
-- Backward pass: manual gradient computation using the chain rule
-- Weight updates: vanilla SGD and mini-batch gradient descent
-- No autograd, no torch — just NumPy math
-
-**Phase 2 — PyTorch rebuild** (`Pytorch_NN.ipynb`)
-- Same architecture implemented using `nn.Module`
-- Validated that both versions produce comparable gradients and outputs on the same inputs
+This isn't my main portfolio (see links at the bottom for that) — it's proof of the
+fundamentals underneath it.
 
 ---
 
-## Architecture
+## What's in here
 
-Input → Dense(ReLU) → Dense(ReLU) → Output(Sigmoid)
-
-Tested on binary classification tasks (XOR and a real dataset).
-
----
-
-## How to Run
-
-Both parts are notebooks — no separate scripts to install or run from a terminal.
-
-```bash
-git clone https://github.com/its-Ravi-Singh/neural-networks-from-scratch.git
-cd neural-networks-from-scratch/numpy-vs-pytorch-nn
-```
-
-Then open either notebook in Jupyter, Google Colab, or Kaggle (whichever you have set up):
-- `1/1.1/Start.ipynb` — the NumPy-only implementation (Phase 1)
-- `Pytorch_NN.ipynb` — the PyTorch rebuild (Phase 2)
-
-Requirements: `numpy`, `matplotlib`, `torch` (install with `pip install numpy matplotlib torch` if running locally; Colab/Kaggle already have these).
+| Project | What it builds | Core concepts | Stack |
+|---|---|---|---|
+| [`micrograd/`](./micrograd) | A scalar autograd engine from an empty file | Computation graphs, reverse-mode autodiff, backpropagation | Python only |
+| [`numpy-vs-pytorch-nn/`](./numpy-vs-pytorch-nn) | A feedforward NN, twice | Manual forward/backward pass vs. framework autograd | NumPy, PyTorch |
 
 ---
 
-## Tech Stack
+## The projects, briefly
 
-`Python` · `NumPy` · `PyTorch` · `Matplotlib`
+**[micrograd](./micrograd)** — Built a scalar-valued automatic differentiation engine
+from scratch: a `Value` class that tracks data, gradient, and the operations that
+produced it, with operator overloading so ordinary Python math builds a computation
+graph automatically. `.backward()` does a topological sort of that graph and walks it
+in reverse, applying the chain rule at every node. This is the exact mechanism every
+deep learning framework runs — just without the speed.
+
+**[numpy-vs-pytorch-nn](./numpy-vs-pytorch-nn)** — A feedforward network for binary
+classification, implemented twice: once in raw NumPy with a hand-derived backward
+pass and manual SGD, then rebuilt in PyTorch with `nn.Module` to confirm both produce
+the same result. Built to stop treating `.backward()` as a black box.
+
+Each folder has its own README with full implementation details and what I learned.
 
 ---
 
-## What I Learned
+## More of my work
 
-The chain rule for a multilayer network becomes straightforward once you draw the computation graph on paper. PyTorch's autograd is doing exactly what I implemented manually — just faster and with GPU support.
-
----
-
-*Deep Learning coursework — University at Buffalo, Fall 2025*
-*Contact: raviraja@buffalo.edu · [LinkedIn](https://linkedin.com/in/ravi-rajaram-singh-47551a206)*
+- Portfolio: [its-ravi-singh.github.io](https://its-ravi-singh.github.io)
+- GitHub: [@its-Ravi-Singh](https://github.com/its-Ravi-Singh)
+- LinkedIn: [ravi-rajaram-singh](https://linkedin.com/in/ravi-rajaram-singh-47551a206)
