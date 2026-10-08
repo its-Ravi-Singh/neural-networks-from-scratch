@@ -4,6 +4,9 @@ Implemented a scalar-valued automatic differentiation engine from an empty file:
 ML libraries involved. This is the mechanism that every deep learning framework —
 PyTorch, TensorFlow — is built on top of, just without the speed and GPU support.
 
+Built while following Andrej Karpathy's micrograd lecture from
+[Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html), typing every line myself.
+
 ---
 
 ## Why I Built This
@@ -26,6 +29,8 @@ something I can now debug and reason about.
   gradients from the output back to every input (`.backward()`)
 - A tiny multi-layer perceptron built entirely out of `Value` objects and trained
   with manual gradient descent, to prove the engine actually works end to end
+- A check against PyTorch: the same tanh neuron built with `torch` tensors gives the
+  same output (0.7071) and the same gradients (x1 -1.5, w1 1.0, x2 0.5, w2 0.0)
 
 ---
 
@@ -41,7 +46,7 @@ jupyter notebook micrograd_from_scratch.ipynb
 
 ## Tech Stack
 
-`Python` — no external ML libraries used in the engine itself.
+`Python` — no external ML libraries used in the engine itself. PyTorch is only used for the gradient check.
 
 ---
 
@@ -54,4 +59,4 @@ they silently accumulate across training steps.
 
 ---
 
-*Contact: raviraja@buffalo.edu · [LinkedIn](https://linkedin.com/in/ravi-rajaram-singh-47551a206)*
+*Contact: ravisingh7421@gmail.com · [LinkedIn](https://linkedin.com/in/ravi-rajaram-singh-47551a206)*

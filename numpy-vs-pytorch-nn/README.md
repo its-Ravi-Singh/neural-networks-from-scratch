@@ -1,66 +1,45 @@
-# Neural Network from Scratch — NumPy to PyTorch
+# Neural Network from Scratch — NumPy and PyTorch (work in progress)
 
-Implemented a feedforward neural network in plain NumPy first, then rebuilt it in PyTorch — to make sure I understood what `.backward()` is actually doing before relying on it.
-
----
-
-## Why I Built This
-
-I kept using PyTorch without fully understanding what was happening during backpropagation. So I stopped and implemented it manually. It turned out to be more understandable than expected, and now when training goes wrong I have a much clearer sense of where to look.
+Two notebooks from when I started learning how neural networks train. The NumPy version is not finished yet, so this folder is a work in progress.
 
 ---
 
-## What Is Implemented
+## What Is Here
 
-**Phase 1 — NumPy only** (`1/1.1/Start.ipynb`)
-- Forward pass: linear transformation + activation functions (ReLU, Sigmoid)
-- Loss computation: Binary Cross-Entropy and MSE
-- Backward pass: manual gradient computation using the chain rule
-- Weight updates: vanilla SGD and mini-batch gradient descent
-- No autograd, no torch — just NumPy math
+**`1/1.1/Start.ipynb` — NumPy MLP for MNIST (unfinished)**
+- Loads the Kaggle digit-recognizer data and keeps 1,000 images aside for testing
+- Parameter init, ReLU, softmax, forward pass and one-hot labels
+- A first try at the backward pass and the gradient descent update
 
-**Phase 2 — PyTorch rebuild** (`Pytorch_NN.ipynb`)
-- Same architecture implemented using `nn.Module`
-- Validated that both versions produce comparable gradients and outputs on the same inputs
+It does not run end to end yet. Bugs I still need to fix:
+- `W2` should be 10x10, not 10x784
+- the output softmax is applied to `A1` instead of `Z2`
+- `np.arrange` should be `np.arange`, and `DZ1`/`DZ2` should be `dZ1`/`dZ2`
+- the bias gradients sum over the wrong axis
+- `update_params` updates `B1` twice and never updates `B2`
+- there is no training loop yet
+
+**`Pytorch_NN.ipynb` — PyTorch practice (Deep Learning coursework)**
+- Autograd basics on a small expression
+- Linear regression on synthetic data with a train/val/test split
+- An MLP classifier on a tabular crime-incidents dataset, compared with logistic regression, random forest and KNN (all between 72% and 74% test accuracy; the MLP almost never predicts the minority class)
 
 ---
 
-## Architecture
+## Next Steps
 
-Input → Dense(ReLU) → Dense(ReLU) → Output(Sigmoid)
+1. Fix the bugs above and train the NumPy MLP on MNIST.
+2. Build the same network in PyTorch with the same starting weights.
+3. Compare the NumPy gradients with PyTorch autograd on the same batch.
 
-Tested on binary classification tasks (XOR and a real dataset).
-
----
-
-## How to Run
-
-Both parts are notebooks — no separate scripts to install or run from a terminal.
-
-```bash
-git clone https://github.com/its-Ravi-Singh/neural-networks-from-scratch.git
-cd neural-networks-from-scratch/numpy-vs-pytorch-nn
-```
-
-Then open either notebook in Jupyter, Google Colab, or Kaggle (whichever you have set up):
-- `1/1.1/Start.ipynb` — the NumPy-only implementation (Phase 1)
-- `Pytorch_NN.ipynb` — the PyTorch rebuild (Phase 2)
-
-Requirements: `numpy`, `matplotlib`, `torch` (install with `pip install numpy matplotlib torch` if running locally; Colab/Kaggle already have these).
+For a from-scratch autograd engine that works end to end, see [`../micrograd`](../micrograd).
 
 ---
 
 ## Tech Stack
 
-`Python` · `NumPy` · `PyTorch` · `Matplotlib`
+`Python` · `NumPy` · `PyTorch` · `scikit-learn` · `Matplotlib`
 
 ---
 
-## What I Learned
-
-The chain rule for a multilayer network becomes straightforward once you draw the computation graph on paper. PyTorch's autograd is doing exactly what I implemented manually — just faster and with GPU support.
-
----
-
-*Deep Learning coursework — University at Buffalo, Fall 2025*
-*Contact: raviraja@buffalo.edu · [LinkedIn](https://linkedin.com/in/ravi-rajaram-singh-47551a206)*
+*Contact: ravisingh7421@gmail.com · [LinkedIn](https://linkedin.com/in/ravi-rajaram-singh-47551a206)*
